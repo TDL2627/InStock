@@ -19,7 +19,12 @@ export default function App({ Component, pageProps }) {
       </Head>
 
       <Toaster position="top-center" reverseOrder={false} />
-
+      <div dangerouslySetInnerHTML={{
+        __html: `
+            <script src="https://elfsightcdn.com/platform.js" async></script>
+<div class="elfsight-app-56573f99-a520-4e3f-9744-d38b3974d3dd" data-elfsight-app-lazy></div>
+          `,
+      }} />
       {/* Main content */}
       <div className="min-h-screen flex flex-col">
         {/* Content area */}
