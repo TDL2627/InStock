@@ -1,39 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# InStock
 
-## Getting Started
+InStock is an inventory tracker and point-of-sale (POS) app for small shops, built with Next.js and Supabase. It focuses on simple workflows for a single owner and one or more tellers: add and manage products, record sales (orders), and view basic sales reports.
 
-First, run the development server:
+Author: TDL2627
+
+The app in this repository includes:
+- Next.js frontend (React) under `src/`
+- Supabase integration (auth + database) via `src/lib/supabaseClient.js`
+- Simple client-side stores and utilities for products, orders and auth
+
+## Quick start
+
+Prerequisites
+- Node.js 18+ and npm/yarn/pnpm
+- A Supabase project (for database and auth)
+
+1) Install dependencies
+
+```bash
+npm install
+```
+
+2) Create environment variables
+
+Create a `.env.local` in the repository root with these values (replace with your Supabase values):
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=public-anon-key
+```
+
+3) Import sample data (optional)
+
+You can import CSV templates included in `supabase_csv/` into your Supabase tables (Table editor → Import). See the `supabase_csv/` directory in this repo for `users.csv`, `products.csv`, and `orders.csv`.
+
+4) Run the dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Build & production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To build for production:
 
-## Learn More
+```bash
+npm run build
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+Or deploy to Vercel. The app is a standard Next.js app and works with Vercel out of the box. Make sure to add the Supabase env vars in Vercel's project settings.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project structure (important files)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/pages/` - Next.js pages (auth, dashboard, products, sales, tellers)
+- `src/app/` - app-level components, global styles
+- `src/lib/supabaseClient.js` - Supabase client initialization
+- `src/utils/*` - helper functions for auth, products and orders
+- `supabase_csv/` - sample CSVs for quick import into Supabase
 
 ## Supabase CSV templates
 
@@ -63,6 +89,18 @@ aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa,2025-01-01T10:00:00Z,30.50,0.00,cash,"[{""p
 bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb,2025-01-02T12:00:00Z,120.00,5.00,card,"[{""productId"":2,""name"":""Bread"",""price"":18,""quantity"":4}]",Bob Teller,owner@example.com
 ```
 
-Notes:
-- Adjust sample IDs/emails for your project.
-- For `orders.csv`, the `items` column uses JSON within CSV — ensure your importer interprets it correctly.
+Notes
+- The `items` column in `orders.csv` stores JSON as a string inside the CSV — use a CSV importer that preserves JSON quotes properly (or import programmatically).
+
+## Development notes & tips
+
+- If auth isn't working, confirm your Supabase URL and anon key are correct and that CORS settings in Supabase allow your dev origin.
+- The app assumes an `owner` user and `teller` roles. Use the `users.csv` sample to seed initial users.
+
+## Contributing
+
+Bug reports and pull requests are welcome. For larger changes, open an issue first so we can discuss design.
+
+## License
+
+This project is provided as-is. Add a LICENSE file if you want an explicit license.
